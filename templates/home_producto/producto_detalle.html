@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}{{ producto.nombre }} | Veterinaria{% endblock %}
+{% block content %}
+<a class="btn btn-link mb-3" href="{% url 'home_producto:categoria_producto' producto.categoria.pk %}">&larr; Volver a la categoría</a>
+
+<div class="row g-4 align-items-stretch">
+    <div class="col-12 col-lg-5">
+        <div class="card shadow-sm border-0 h-100">
+            {% if producto.foto %}
+                <img src="{{ producto.foto.url }}" class="card-img-top object-fit-cover" alt="Foto de {{ producto.nombre }}">
+            {% else %}
+                <div class="ratio ratio-4x3 bg-light d-flex align-items-center justify-content-center text-muted fw-semibold">
+                    Sin foto disponible
+                </div>
+            {% endif %}
+            <div class="card-body">
+                <h1 class="h4 text-primary">{{ producto.nombre }}</h1>
+                <p class="mb-1"><strong>Categoría:</strong> {{ producto.categoria.nombre }}</p>
+                <p class="mb-1"><strong>SKU:</strong> {{ producto.sku }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-7">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body d-flex flex-column">
+                <h2 class="h5 text-success">Descripción</h2>
+                <p class="flex-grow-1">{{ producto.descripcion|default:'Sin descripción.' }}</p>
+                <div class="d-flex gap-2 justify-content-end">
+                    <a class="btn btn-outline-primary" href="{% url 'home_producto:editar_producto' producto.pk %}">Editar</a>
+                    <a class="btn btn-outline-danger" href="{% url 'home_producto:eliminar_producto' producto.pk %}">Eliminar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

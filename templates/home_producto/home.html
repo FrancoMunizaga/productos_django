@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Inicio | Tienda Productos{% endblock %}
+{% block content %}
+<section class="mb-5 text-center">
+    <h1 class="display-6 fw-semibold text-primary">Categorías de Producto</h1>
+    <p class="text-muted">Selecciona una categoría para gestionar a los productos.</p>
+</section>
+
+<div class="row g-4">
+    {% if categoria_producto %}
+        {% for categoria in categoria_producto %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm border-0 categoria-card">
+                    <div class="ratio ratio-16x9 bg-light">
+                        {% if categoria_producto.imagen %}
+                            <img src="{{ categoria.imagen.url }}" class="card-img-top object-fit-cover" alt="Imagen de {{ categoria_producto.nombre }}">
+                        {% else %}
+                            <div class="d-flex align-items-center justify-content-center text-muted fw-semibold">
+                                Sin imagen
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h2 class="h5 card-title text-success">{{ categoria_producto.nombre }}</h2>
+                        <p class="card-text text-muted">{{ categoria_producto.descripcion|default:'Sin descripción' }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 text-end">
+                        <a class="btn btn-outline-primary" href="{% url 'home_producto:categoria_producto' categoria_producto.pk %}">Ver producto</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">Aún no hay categorías.</div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

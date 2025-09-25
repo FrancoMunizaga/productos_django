@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}{{ categoria_producto.nombre }} | producto{% endblock %}
+{% block content %}
+<section class="mb-4">
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+        <div>
+            <h1 class="h3 text-success mb-1">{{ categoria_producto.nombre }}</h1>
+            <p class="text-muted mb-0">{{ categoria_producto.descripcion|default:'Sin descripción disponible.' }}</p>
+        </div>
+        <a class="btn btn-primary" href="{% url 'home_producto:crear_producto' categoria_producto.pk %}">Agregar producto</a>
+    </div>
+</section>
+
+<section class="mb-4">
+    <form class="row g-3" method="get">
+        <div class="col-md-8">
+            <input class="form-control" type="search" name="q" placeholder="Buscar por nombre" value="{{ termino }}">
+        </div>
+        <div class="col-md-4 text-md-end">
+            <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </div>
+    </form>
+</section>
+
+<section>
+    {% if producto %}
+        <div class="table-responsive shadow-sm">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Sku</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in producto %}
+                        <tr>
+                            <td>{{ producto.nombre }}</td>
+                            <td>{{ producto.sku }}</td>
+                            <td class="text-end">
+                                <a class="btn btn-sm btn-outline-primary" href="{% url 'home_producto:detalle_producto' producto.pk %}">Ver</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info">No hay producto registrados en esta categoría.</div>
+    {% endif %}
+</section>
+{% endblock %}
